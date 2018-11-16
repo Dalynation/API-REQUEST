@@ -4,55 +4,49 @@ fetch('https://randomuser.me/api?results=12&nat=us')
   .then(response => response.json())
   .then(data => insertProfiles(data.results))
 
-  // Add search container
+  // Adding dom search container
   const searchContainer = document.querySelector('.search-container');
-
-  // Create search form
+  // Create the search form
   const searchBar = `
       <form action="#" method="get">
           <input type="search" id="search-input" class="search-input" placeholder="Search...">
           <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
-      </form>
-  `;
-  // Add search to html
+      </form>`;
+  // Adding the search bar to html
   searchContainer.innerHTML = searchBar;
 
   const searchInput = document.getElementById('search-input');
-  const searchSubmit = document.getElementById('search-submit');
+  const searchButton = document.getElementById('search-submit');
 
-  // Filter page people results on click of search submit button
-  searchSubmit.addEventListener("click", () => {
-      const searchResults = searchInput.value.toLowerCase();
-      searchText(searchResults);
-  })
+  searchButton.addEventListener('click', () => {
+      let filter = searchInput.value.toLowerCase();
+      searchText(filter);
+      })
 
-  // Filter page people results from search
-  function searchText(value) {
+      function searchText(value) {
       const card = document.querySelectorAll('.card');
-      // loop through all people cards on page
-      for(i = 0; i < card.length; i++) {
-          // Grab person name from card
-          const userName = card[i].querySelector('.card-name').textContent;
-          if (userName.indexOf(value) > -1) {
+      for (let i = 0; i < card.length; i++) {
+        const userName = card[i].querySelector('.card-name').textContent
+        if (userName.indexOf(value) > -1) {
               card[i].style.display = "";
+
           } else {
               card[i].style.display = "none";
+
           }
-      }
-  }
-
-
+    }
+}
 
 function insertProfiles(results) {
 
           $.each(results, function(index, user) {
               $('#gallery').append(
-               `<div class="card">
+               `<div class="card"  id=${index}>
                   <div class="card-img-container">
                       <img class="card-img" src="${user.picture.large}" alt="profile picture">
                   </div>
                   <div class="card-info-container">
-                      <h2 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h2>
+                      <h2 id=${index} class="card-name cap">${user.name.first} ${user.name.last}</h2>
                       <p class="card-text">${user.email}</p>
                       <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
                   </div>
@@ -63,7 +57,8 @@ function insertProfiles(results) {
 
 
 
-// function modalAddon (user) {
+// function modalAddon (results) {
+// $('#card').addEventListener('click', (results) => {
 //               $(".modal-info-container").html(
 // `<div class="modal-container">
 //     <div class="modal">
@@ -79,10 +74,5 @@ function insertProfiles(results) {
 //         </div>
 //     </div>`);
 //     $(".modal-container").show();
+// })
 // }
-//
-//
-// createModalWindow();
-//          $('.card').on("click", function() {
-//                  let user = $('.card').index(this);
-//                  modalAddon(results[user]);
