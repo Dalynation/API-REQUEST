@@ -71,7 +71,7 @@ searchButton.addEventListener('click', () => {
 //             <p class="modal-text">${user.birthday}</p>
 //         </div>
 //     </div>`).show();
-})
+// })
 
 // Here is when a click event cuase modal window to appear.
 // $('#0').addEventListener('click', modalAddon);
