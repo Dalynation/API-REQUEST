@@ -4,8 +4,11 @@ fetch('https://randomuser.me/api?results=12&nat=us')
   .then(response => response.json())
   .then(data => insertProfiles(data.results))
 
-//This a function that passes the results to each card. The structure of the card the results is being passed to specifes the need details and provides a # id.
-  function insertProfiles(results) {
+
+// Create modal container
+let modalContainer = document.createElement('div');
+
+  function insertProfiles(results) { //passes results and appends them to the page
             $.each(results, function(index, user) {
                 $('#gallery').append(
                  `<div class="card"  id=${index}>
@@ -18,8 +21,35 @@ fetch('https://randomuser.me/api?results=12&nat=us')
                         <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
                     </div>
                   </div>`);
+
+                  $('.card').on('click', function () {  //when card is clicked modal window will appear.
+                    let modalHTML = `<div class="modal-container">
+     <div class="modal">
+         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+         <div class="modal-info-container">
+             <img class="modal-img" src="${user.picture.large}" alt="profile picture">
+             <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+             <p class="modal-text">${user.email}</p>
+             <p class="modal-text cap">${user.location.city}</p>
+             <p class="modal-text">${user.number}</p>
+             <p class="modal-text">${user.location.postcode}</p>
+             <p class="modal-text">Birthday: ${user.dob.date}</p>
+         </div>
+
+    `;
+
+
+    modalContainer.innerHTML = modalHTML;
+    gallery.parentNode.insertBefore(modalContainer, gallery);
+
+    // Close modal on click of 'X' close button
+    $('#modal-close-btn').on('click', function(){
+              $('.modal-container').remove();
             });
-  }
+            });
+  });
+}
+
   //=======================================Search Bar==========================================================
 // I am selecting the search container class and pushing it to a variable.
   const searchContainer = document.querySelector('.search-container');
@@ -53,39 +83,3 @@ searchButton.addEventListener('click', () => {
           }
     }
 }
-//=======================================Modal Window==========================================================
-// Here is where I'm atempting to append the modal structure with the specified details, and to appear when  the function is ran.
-// function modalAddon (results) {
-//   $.each(results, function(index, user) {
-//       $('#gallery').append(
-// `<div class="modal-container">
-//     <div class="modal">
-//         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-//         <div class="modal-info-container">
-//             <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
-//             <p class="modal-text">${user.email}</p>
-//             <p class="modal-text cap">${user.location.city}</p>
-//             <hr>
-//             <p class="modal-text">${user.cellPhone}</p>
-//             <p class="modal-text">${user.location.streetAddress}, ${user.location.state}, ${user.postcode}</p>
-//             <p class="modal-text">${user.birthday}</p>
-//         </div>
-//     </div>`).show();
-// })
-
-// Here is when a click event cuase modal window to appear.
-// $('#0').addEventListener('click', modalAddon);
-// $('#1').addEventListener('click', modalAddon);
-// $('#2').addEventListener('click', modalAddon);
-// $('#3').addEventListener('click', modalAddon);
-// $('#4').addEventListener('click', modalAddon);
-// $('#5').addEventListener('click', modalAddon);
-// $('#6').addEventListener('click', modalAddon);
-// $('#7').addEventListener('click', modalAddon);
-// $('#8').addEventListener('click', modalAddon);
-// $('#9').addEventListener('click', modalAddon);
-// $('#10').addEventListener('click', modalAddon);
-// $('#11').addEventListener('click', modalAddon);
-
-
-// Here is where I plan to select the close button ID to close the modal window. Possibly hide the object.
